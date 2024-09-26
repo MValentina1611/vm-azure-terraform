@@ -1,7 +1,7 @@
 # Definición del provider de Azure con sus características.
 provider "azurerm" {
   features {}
-  subscription_id = "e864be64-78c8-4107-bfd1-6c91e38fa7ec" # Coloca tu ID de suscripción
+  subscription_id = ""
 }
 
 # Grupo de recursos donde se asociarán los demás recursos.
