@@ -113,15 +113,15 @@ Una vez completada la creación de la infraestructura, se puede conectar a la VM
 ssh user_admin@<public_ip>
 ```
 ### Conexión por ssh
-![](docs/connect)
+![](docs/connect2SSh.png)
 
-![](docs/connect2)
+![](docs/connectSSh.png)
 
 ### Virtual Machine en Azure
 
-![](docs/vm)
+![](docs/vmAzure.png)
 
-![](docs/vm2)
+![](docs/vm2Azure.png)
 
 ---
 
