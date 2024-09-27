@@ -123,6 +123,8 @@ ssh user_admin@<public_ip>
 
 ![](docs/vm2Azure.png)
 
+[VIDEO CONEXIÓN POR SSH](https://youtube.com/shorts/15jKkuj0h8w?si=hq2Qy4IFFtwR-U4D)
+
 ---
 
 ## Conclusión
