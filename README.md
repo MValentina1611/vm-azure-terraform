@@ -48,5 +48,7 @@ Ahora, los recursos se han separado en diferentes archivos y módulos según su 
 ## Evidencias 
 
 ### Conexión por ssh funciona correctamente
+![](docs/module-connect.png)
 
 ### Visibilidad del recurso en Azure
+![](docs/module-vmAzure.png)
