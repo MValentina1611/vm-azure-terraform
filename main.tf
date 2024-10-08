@@ -1,7 +1,7 @@
-# Definición del provider de Azure con sus características.
+# Definición del provider de Azure
 provider "azurerm" {
   features {}
-  subscription_id = ""
+  subscription_id = "e864be64-78c8-4107-bfd1-6c91e38fa7ec"
 }
 
 # Grupo de recursos donde se asociarán los demás recursos.
@@ -26,7 +26,7 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-# Grupo de seguridad de red para la VM
+# Grupo de seguridad de red
 resource "azurerm_network_security_group" "nsg" {
   name                = "${var.prefix}-nsg"
   location            = azurerm_resource_group.rg.location
@@ -52,7 +52,7 @@ resource "azurerm_public_ip" "public_ip" {
   allocation_method   = "Static"
 }
 
-# Interfaz de red para la VM
+# Interfaz de red
 resource "azurerm_network_interface" "nic" {
   name                = "${var.prefix}-nic"
   location            = azurerm_resource_group.rg.location
@@ -66,44 +66,20 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
-# Máquina virtual en Azure
-resource "azurerm_virtual_machine" "vm" {
-  name                  = "${var.prefix}-vm"
-  location              = azurerm_resource_group.rg.location
-  resource_group_name   = azurerm_resource_group.rg.name
-  network_interface_ids = [azurerm_network_interface.nic.id]
-  vm_size               = var.vm_size
-
-  storage_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
-    version   = "latest"
-  }
-
-  storage_os_disk {
-    name              = "osdisk"
-    caching           = "ReadWrite"
-    create_option     = "FromImage"
-    managed_disk_type = "Standard_LRS"
-  }
-
-  os_profile {
-    computer_name  = "hostname"
-    admin_username = var.admin_username
-    admin_password = var.admin_password
-  }
-
-  os_profile_linux_config {
-    disable_password_authentication = false
-  }
-
-  tags = {
-    environment = "staging"
-  }
-}
-
+# Asignación del grupo de seguridad a la interfaz de red
 resource "azurerm_network_interface_security_group_association" "nic-sg" {
   network_interface_id      = azurerm_network_interface.nic.id
   network_security_group_id = azurerm_network_security_group.nsg.id
+}
+
+# Llamada al módulo vm
+module "vm" {
+  source              = "./modules/vm"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  vm_size             = var.vm_size
+  admin_username      = var.admin_username
+  admin_password      = var.admin_password
+  network_interface_id = azurerm_network_interface.nic.id
+  prefix              = var.prefix
 }
