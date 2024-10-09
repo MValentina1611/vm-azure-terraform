@@ -45,6 +45,22 @@ resource "azurerm_network_security_group" "nsg" {
   }
 }
 
+# Regla de seguridad para el puerto 8787
+resource "azurerm_network_security_rule" "allow_http_8787" {
+  name                       = "AllowHTTP8787"
+  priority                   = 1001
+  direction                  = "Inbound"
+  access                     = "Allow"
+  protocol                   = "Tcp"
+  source_port_range          = "*"
+  destination_port_range     = "8787"
+  source_address_prefix      = "*"
+  destination_address_prefix = "*"
+  resource_group_name        = azurerm_resource_group.rg.name
+  network_security_group_name = azurerm_network_security_group.nsg.name
+}
+
+# Dirección IP pública
 resource "azurerm_public_ip" "public_ip" {
   name                = "${var.prefix}-public-ip"
   resource_group_name = azurerm_resource_group.rg.name
